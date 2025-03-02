@@ -1,4 +1,4 @@
-# Traffic Sign Detection using YOLOv8
+# Traffic Sign Detection using YOLOv8 
 
 ![Screenshot (2)](https://github.com/user-attachments/assets/2abd2fdd-36c6-48f1-9ff8-e5968aa00d5e)
 

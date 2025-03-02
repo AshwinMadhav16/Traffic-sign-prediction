@@ -1,54 +1,74 @@
-# Traffic-sign-prediction
 # Traffic Sign Detection using YOLOv8
 
-## Project Overview
-This project implements real-time traffic sign detection using the YOLOv8 model. It captures video frames from a webcam and processes them using a trained YOLO model to detect and annotate traffic signs.
+## Overview
+This project implements real-time traffic sign detection using the YOLOv8 object detection model. The model is trained on a custom dataset and deployed for live webcam detection.
 
 ## Features
-- Uses YOLOv8 for real-time traffic sign detection.
-- Captures frames from a webcam.
-- Annotates detected traffic signs in the video stream.
-- Allows exiting the detection loop by pressing the 'q' key.
+- Train a YOLOv8 model on a custom traffic sign dataset
+- Perform real-time traffic sign detection using a webcam
+- Save and export the trained model for further use
 
-## Requirements
-Ensure you have the following dependencies installed:
+## Installation
 
-- Python 3.7+
-- OpenCV (`cv2`)
-- Ultralytics YOLO (`ultralytics`)
-- Torch (`torch`)
-
-Install dependencies using:
+### 1. Clone the Repository
 ```bash
-pip install ultralytics opencv-python torch
+git clone https://github.com/yourusername/traffic-sign-detection.git
+cd traffic-sign-detection
 ```
 
-## File Structure
-- `trafficsign.py`: Main script for real-time traffic sign detection.
-- `trafficsign.pt`: Pre-trained YOLOv8 model file.
-- `trafficlightdetection.ipynb`: Jupyter notebook for testing and experimentation.
+### 2. Install Dependencies
+Ensure you have Python installed, then install the required libraries:
+```bash
+pip install ultralytics roboflow opencv-python
+```
 
-## How to Run
-1. Ensure the `trafficsign.pt` model file is present at the specified path in `trafficsign.py`.
-2. Run the detection script:
-   ```bash
-   python trafficsign.py
-   ```
-3. If the webcam is accessible, the script will display real-time detection results.
-4. Press 'q' to exit the detection window.
+## Training the Model
+### Download the dataset using Roboflow:
+```python
+from roboflow import Roboflow
+rf = Roboflow(api_key="your_api_key")
+project = rf.workspace("my-jvrqh").project("traffic_sign-gv5rp-t0k2e-4y3sn")
+version = project.version(2)
+dataset = version.download("yolov8")
+```
+
+### Train YOLOv8:
+```bash
+yolo task=detect mode=train model=yolov8n.pt data=Traffic_Sign-2/data.yaml epochs=25 imgsz=640 batch=8
+```
+
+## Running Real-Time Detection
+Ensure you have a trained model (`trafficsign.pt`) stored in the correct path, then run the detection script:
+```bash
+python trafficsign.py
+```
+
+### Expected Output
+The script will open the webcam and detect traffic signs in real time.
+- Press `q` to exit the application.
+
+## Model Export
+To save and zip the trained model:
+```bash
+cp /content/runs/detect/train/weights/best.pt /content/my_model/trafficsign.pt
+zip -r my_model.zip my_model
+```
 
 ## Troubleshooting
-- **Model file not found:** Verify the path to `trafficsign.pt` in `trafficsign.py`.
-- **Webcam not accessible:** Ensure your webcam is properly connected and available.
-- **Dependencies missing:** Run `pip install -r requirements.txt` if you have a `requirements.txt` file.
-
-## Future Improvements
-- Expand detection to different traffic sign types.
-- Improve accuracy by training on a larger dataset.
-- Deploy as a web-based application.
+- **Model file not found:** Ensure `trafficsign.pt` is in the correct directory.
+- **Webcam access error:** Check if another application is using the webcam.
+- **Python dependencies issue:** Run `pip install -r requirements.txt` to reinstall dependencies.
 
 ## License
-This project is for educational purposes. Modify and use it as needed.
+This project is open-source and available under the MIT License.
+
+## Author
+**Ashwin Madhav A**
+
+## Acknowledgments
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
+- [Roboflow](https://roboflow.com) for dataset management.
+
 
 
 
